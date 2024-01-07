@@ -26,6 +26,7 @@ def search(subreddit, query):
     sublink = chunk[start + 6: start + end - 5]
     # substring found is 'href="/r/{subreddit}/comments/{someURL}"'
     link = f"https://www.reddit.com{sublink[:-2]}"
+    # the -2 index is required cuz for some reason sublink keeps returning with an ending "
 
 
     return link

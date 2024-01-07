@@ -24,7 +24,9 @@ prefixes = ['??','?a','?m','?y']
 
 def googlesearch(query):
     responses = gsearch(query, num_results = 1)
-    return responses[0]
+    results = []
+    results.extend(responses)
+    return results[0]
 
 
 @client.event
@@ -101,8 +103,6 @@ def getresponse(prefix, query):
 
 @client.event
 async def on_message(message):
-    print("here")
-    print(message.content)
     if message.author == client.user:
         return
 

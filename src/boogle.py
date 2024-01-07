@@ -138,9 +138,9 @@ async def on_message(message):
             return
 
     response = getresponse(prefix, query)
+    print(response)
 
     if response:
-        print(response)
         embeded = discord.Embed(title = query, url = response)
         rmessage = random.choice(messages)
         await message.channel.send(content = rmessage, embed = embeded)

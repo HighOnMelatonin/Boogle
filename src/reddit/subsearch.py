@@ -14,12 +14,18 @@ def search(subreddit, query):
 
     html = fetch_result(subreddit, query)
 
-    ##Get link
-    start = html.find('class="SQnoC3ObvgnGjWt90zD9Z _2INHSNB8V5eaWp4P0rY_mE"')
-    end = html[start:].find('"><div class="_2SdHzo12ISmrC8H86TgSCp _1zpZYP8cFNLfLDexPY65Y7 "')
+    chunkStart = html.find("<post-consume-tracker>")
+    chunkEnd = html.find("</post-consume-tracker>")
+    chunk = html[chunkStart:chunkEnd]
+    # cut the html file down to a smaller chunk
 
-    sublink = html[start + 60: start + end]
-    link = f"https://www.reddit.com{sublink}"
+    ##Get link
+    start = chunk.find(f'href="/r/{subreddit}/comment')
+    end = chunk[start:].find('class="absolute inset-0"')
+
+    sublink = chunk[start + 6: start + end - 5]
+    # substring found is 'href="/r/{subreddit}/comments/{someURL}"'
+    link = f"https://www.reddit.com{sublink[:-2]}"
+
 
     return link
-

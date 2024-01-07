@@ -7,8 +7,10 @@ from myanimelist import anime
 from reddit import redditsearch
 from reddit import subsearch
 
-client = discord.Client()
-
+intents = discord.Intents.default()
+intents.message_content = True
+client = discord.Client(intents = intents)
+# Need to enable messages in intent to see message content
 
 with open('.env', 'r') as file:
     lines = file.readlines()
@@ -99,10 +101,13 @@ def getresponse(prefix, query):
 
 @client.event
 async def on_message(message):
+    print("here")
+    print(message.content)
     if message.author == client.user:
         return
 
-    if message.content.startswith('<@!914402388591394848>'):
+    if message.content.startswith('<@914402388591394848>'):
+        ## message.content is deprecated, this module can no longer read content
         title, helpmessage = sendHelp()
         await message.channel.send(embed = discord.Embed(title = title, description = helpmessage))
         return

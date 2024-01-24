@@ -1,5 +1,5 @@
 import discord
-from googlesearch import search as gsearch
+from googlesearch.googlesearch import search as gsearch
 import random
 from youtubesearch.youtubesearch import search as ytsearch
 from myanimelist import manga
@@ -23,6 +23,7 @@ prefixes = ['??','?a','?m','?y']
 
 
 def googlesearch(query):
+    ##googlesearch was not a module written by me, hence this function to make it usable for boogle
     responses = gsearch(query, num_results = 1)
     results = []
     results.extend(responses)
@@ -31,6 +32,7 @@ def googlesearch(query):
 
 @client.event
 async def on_ready():
+    ##Output guilds to console, as an indication of all good
     guilds = []
     for guild in client.guilds:
         guilds += [guild]
@@ -41,6 +43,7 @@ async def on_ready():
 
 
 def sendHelp():
+    ##Help message
     help_title = 'How I work:'
 
     pythonlink = googlesearch('python')
@@ -68,7 +71,10 @@ def sendHelp():
 
 
 def getresponse(prefix, query):
+    ##Get a response based on query
+    print(query)
     if prefix == '??':
+        print("google")
         response = googlesearch(query)
 
     elif prefix == '?a':
@@ -107,7 +113,9 @@ async def on_message(message):
         return
 
     if message.content.startswith('<@914402388591394848>'):
-        ## message.content is deprecated, this module can no longer read content
+        ##If boogle is pinged, send help
+        if 'thank' in message.content.lower():
+            await message.channel.send("My pleasure :)")
         title, helpmessage = sendHelp()
         await message.channel.send(embed = discord.Embed(title = title, description = helpmessage))
         return

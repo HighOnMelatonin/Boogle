@@ -1,5 +1,5 @@
 import discord
-from googlesearch.googlesearch import search as gsearch
+from gsearch.googlesearch import search as gsearch
 import random
 from youtubesearch.youtubesearch import search as ytsearch
 from myanimelist import manga
@@ -23,7 +23,6 @@ prefixes = ['??','?a','?m','?y']
 
 
 def googlesearch(query):
-    ##googlesearch was not a module written by me, hence this function to make it usable for boogle
     responses = gsearch(query, num_results = 1)
     results = []
     results.extend(responses)
@@ -32,7 +31,7 @@ def googlesearch(query):
 
 @client.event
 async def on_ready():
-    ##Output guilds to console, as an indication of all good
+    ##Output guilds to console, to indicate bot is live
     guilds = []
     for guild in client.guilds:
         guilds += [guild]
@@ -72,10 +71,8 @@ def sendHelp():
 
 def getresponse(prefix, query):
     ##Get a response based on query
-    print(query)
     if prefix == '??':
-        print("google")
-        response = googlesearch(query)
+        response = gsearch(query)
 
     elif prefix == '?a':
         response = anime.search(query)
@@ -95,7 +92,6 @@ def getresponse(prefix, query):
             space = query.find(' ')
             subreddit = query[:space]
             terms = query[space + 1:]
-            print(subreddit, terms)
             response = subsearch.search(subreddit, terms)
 
         else:
@@ -146,7 +142,6 @@ async def on_message(message):
             return
 
     response = getresponse(prefix, query)
-    print(response)
 
     if response:
         embeded = discord.Embed(title = query, url = response)
